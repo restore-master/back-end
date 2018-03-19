@@ -1,7 +1,6 @@
 {
   "name": "report-group-backend",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "jest": {
     "verbose": true,
@@ -77,5 +76,6 @@
   "bugs": {
     "url": "https://github.com/restore-master/back-end/issues"
   },
-  "homepage": "https://github.com/restore-master/back-end#readme"
+  "homepage": "https://github.com/restore-master/back-end#readme",
+  "description": ""
 }
