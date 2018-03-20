@@ -5,6 +5,7 @@ export default (request, response, next) => {
   response.sendFile = response.sendFile.bind(response);
   response.sendStatus = response.sendStatus.bind(response);
   response.page = (data) => {
+    console.log('data', data);
     response.links({
       next: data.next,
       prev: data.prev,
