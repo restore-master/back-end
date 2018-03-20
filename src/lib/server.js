@@ -1,38 +1,48 @@
 'use strict';
 
-const cors = require('cors');
-const express = require('express');
-const mongoose = require('mongoose');
-const errorHandler = require('../middleware/error-handler');
+// DEPENDENCIES
+import * as db from './database';
+import express from 'express';
+import middleware from '../middleware';
+import { log } from './utilities';
 
-const app = express();
-const router = express.Router();
-const PORT = process.env.PORT;
-const MONGODB_URI = process.env.MONGODB_URI;
+// STATE
+const app = express().use(middleware);
+const state = {
+  isOn: false, 
+  http: null,
+};
 
-app.use(cors());
-app.all('/{0}',(request, response) => ( errorHandler(new Error('Path Error. Route not found.')), response));
-
-const server = module.exports = {};
-server.start = () => {
-  return new Promise ((resolve, reject) => {
-    if (server.isOn) return reject(new Error('Sever Error. Cannot start on new server  on the same port'));
-    server.http = app.listen(PORT, () => {
-      console.log(`Listening on ${PORT}`);
-      server.isOn = true;
-      mongoose.connect(MONGODB_URI);
-      return resolve(server);
-    });
+// INTERFACE 
+export const start = () => {
+  return new Promise((resolve, reject) => {
+    if (state.isOn) 
+      return reject(new Error('USAGE ERROR: the state is on'));
+    state.isOn = true;
+    db.start()
+      .then(() => {
+        state.http = app.listen(process.env.PORT, () => {
+          log('__SERVER_UP__', process.env.PORT);
+          resolve();
+        });
+      })
+      .catch(reject);
   });
 };
 
-server.stop = () => {
-  return new Promise ((resolve, reject) => {
-    if (!server.isOn) return reject(new Error('Sever Error. Cannot stop server that is not running.'));
-    server.http.close(() => {
-      server.isOn = false;
-      mongoose.disconnect();
-      return resolve();
-    }); 
+export const stop = () => {
+  return new Promise((resolve, reject) => {
+    if(!state.isOn)
+      return reject(new Error('USAGE ERROR: the state is off'));
+    return db.stop()
+      .then(() => {
+        state.http.close(() => {
+          log('__SERVER_DOWN__');
+          state.isOn = false;
+          state.http = null;
+          resolve();
+        });
+      })
+      .catch(reject);
   });
 };

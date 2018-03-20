@@ -1,3 +1,3 @@
 require('dotenv').config();
 require('babel-register');
-require('./src/lib/server');
+require('./src/main');

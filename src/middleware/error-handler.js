@@ -1,20 +1,26 @@
+import {logError} from '../lib/utilities';
 
-'use strict';
+// INTERFACE
+export default (error, request, response, next) => {
+  console.log(error);
+  logError(error);
+  if(error.status)
+    return response.sendStatus(error.status);
 
-module.exports = function (err, response) {
-  let msg = err.message.toLowerCase();
+  error.message = error.message.toLowerCase();
 
-  switch(true) {
-  case msg.includes('validation'): 
-    return response.status(400).send(`${err.name}: ${err.message}`);
-  case msg.includes('authorization'): 
-    return response.status(401).send(`${err.name}: ${err.message}`);
-  case msg.includes('path error'): 
-    return response.status(404).send(`${err.name}: ${err.message}`);
-  case msg.includes('objectid failed'): 
-    return response.status(404).send(`${err.name}: ${err.message}`);
-  case msg.includes('duplicate key'): 
-    return response.status(409).send(`${err.name}: ${err.message}`);
-  default: return response.status(500).send(`${err.name}: ${err.message}`);
-  }
+  if(error.message.includes('validation failed'))
+    return response.sendStatus(400);
+
+  // if duplacte key respond with 409
+  if(error.message.includes('duplicate key'))
+    return response.sendStatus(409);
+
+  if(error.message.includes('objectid failed'))
+    return response.sendStatus(404);
+
+  if(error.message.includes('unauthorized'))
+    return response.sendStatus(401);    
+
+  response.sendStatus(500);
 };
