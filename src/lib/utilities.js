@@ -36,7 +36,7 @@ export const s3UploadMulterFileAndClean = (data) => {
     Body: fs.createReadStream(data.path),
   }).promise()
   // allways remove file and either pass on failure or success
-    .catch(err => fs.remove(data.path).then(() => {throw err}))
+    .catch(err => fs.remove(data.path).then(() => {throw err;}))
     .then(s3Data => fs.remove(data.path).then(() => s3Data));
 };
 export const pagerCreate = (model, populate='') => (req, query={}) => {

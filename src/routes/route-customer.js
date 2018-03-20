@@ -28,20 +28,20 @@ module.exports = function (router) {
       new Customer(req.body).save()
         .then(customer => res.status(201).json(customer))
         .catch(err => errorHandler(err, res));
-    })
+    });
 
-    // .put(bodyParser, (req, res) => {
-    //   debug(`${req.method}: ${req.url}`);
-    //   debug(`${req.body}`);
-    //   Customer.findByIdAndUpdate(req.params._id, req.body, { upsert: true, runValidators: true }) 
-    //     .then(() => res.sendStatus(204))
-    //     .catch(err => errorHandler(err, res));
-    // })
+  // .put(bodyParser, (req, res) => {
+  //   debug(`${req.method}: ${req.url}`);
+  //   debug(`${req.body}`);
+  //   Customer.findByIdAndUpdate(req.params._id, req.body, { upsert: true, runValidators: true }) 
+  //     .then(() => res.sendStatus(204))
+  //     .catch(err => errorHandler(err, res));
+  // })
 
-    // .delete((req, res) => {
-    //   debug(`${req.method}: ${req.url}`);
-    //   Customer.findByIdAndRemove(req.params._id)
-    //     .then(() => res.sendStatus(204))
-    //     .catch(err => errorHandler(err, res));
-    // });
+  // .delete((req, res) => {
+  //   debug(`${req.method}: ${req.url}`);
+  //   Customer.findByIdAndRemove(req.params._id)
+  //     .then(() => res.sendStatus(204))
+  //     .catch(err => errorHandler(err, res));
+  // });
 };
