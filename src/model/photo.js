@@ -11,7 +11,7 @@ const photoSchema = new Schema({
   comments: [{type: Schema.Types.ObjectId}],
 });
 
-const Photo = Mongoose.model('photo', photoSchema); 
+const Photo = Mongoose.model('photo', photoSchema);
 
 Photo.validateRequest = function(request){
   if(request.method === 'POST' && !request.files)
@@ -64,7 +64,7 @@ Photo.fetchOne = function(request){
     .populate('profile comments')
     .then(photo => {
       if(!photo)
-        throw createError(404, 'NOT FOUND ERROR: photo not found'); 
+        throw createError(404, 'NOT FOUND ERROR: photo not found');
       return photo;
     });
 };
@@ -75,7 +75,7 @@ Photo.updatePhotoWithFile = function(request){
       return util.s3UploadMulterFileAndClean(file)
         .then(s3Data => {
           let update = {url: s3Data.Location};
-          if(request.body.description) update.description = request.body.description; 
+          if(request.body.description) update.description = request.body.description;
           return Photo.findByIdAndUpdate(request.params.id, update, {new: true, runValidators: true});
         });
     });

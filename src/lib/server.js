@@ -4,25 +4,24 @@
 import * as db from './database';
 import express from 'express';
 import middleware from '../middleware';
-import { log } from './utilities';
 
 // STATE
 const app = express().use(middleware);
 const state = {
-  isOn: false, 
+  isOn: false,
   http: null,
 };
 
-// INTERFACE 
+// INTERFACE
 export const start = () => {
   return new Promise((resolve, reject) => {
-    if (state.isOn) 
+    if (state.isOn)
       return reject(new Error('USAGE ERROR: the state is on'));
     state.isOn = true;
     db.start()
       .then(() => {
         state.http = app.listen(process.env.PORT, () => {
-          log('__SERVER_UP__', process.env.PORT);
+          console.log('__SERVER_UP__', process.env.PORT);
           resolve();
         });
       })
@@ -37,7 +36,7 @@ export const stop = () => {
     return db.stop()
       .then(() => {
         state.http.close(() => {
-          log('__SERVER_DOWN__');
+          console.log('__SERVER_DOWN__');
           state.isOn = false;
           state.http = null;
           resolve();
