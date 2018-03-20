@@ -13,7 +13,6 @@ const customerSchema = new Schema({
 const Customer = Mongoose.model('customer', customerSchema);
 
 Customer.create =  function(request){
-  console.log('HERRO!!!!!!!!!!+++++++=========', request.body);
   return new Customer({
     name: request.body.name,
     date: request.body.date,

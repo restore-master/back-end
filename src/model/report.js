@@ -1,6 +1,8 @@
-import Mongoose, { Schema } from 'mongoose';
-import Customer from './customer';
-import debug from 'debug';
+'use strict';
+import * as _ from 'ramda';
+import * as util from '../lib/utilities';
+import createError from 'http-errors';
+import Mongoose, {Schema} from 'mongoose';
 
 
 const reportSchema = new Schema({
@@ -33,31 +35,45 @@ const reportSchema = new Schema({
   adjuster: {type: String, required: true },
   customerAgent: {type: String, required: true},
 });
-const Report = Mongoose.model('report', reportSchema); 
 
-Report.pre('save', function (next) {
-  debug(`Report.pre('save') ${Report.customer}`);
-  Customer.findById(this.customer)
-    .then(customer => {
-      customer.report = [...new Set(customer.report).add(this._id)];
-      Customer.findByIdAndUpdate(this.customer, { report: customer.report });
-      customer.save();
-    })
-    .then(next)
-    .catch(() => next(new Error('Validation Error. Failed to save Report.')));
-});
+const Report = Mongoose.model('report', reportSchema);
 
+Report.create =  function(request){
+  console.log(request.body.id);
+  return new Report({
+    customer: request.body.customer,
+    source: request.body.source,
+    upperRooms: request.body.upperRooms,
+    lowerRooms: request.body.lowerRooms,
+    ceilingHeight: request.body.ceilingHeight,
+    ceilingDescription: request.body.ceilingDescription,
+    powerHeat: request.body.powerHeat,
+    flooringType: request.body.flooringType,
+    typeOfHome: request.body.typeOfHome,
+    ageOfHome: request.body.ageOfHome,
+    standingWater: request.body.standingWater,
+    basement: request.body.basement,
+    crawlOrSlab: request.body.crawlOrSlab,
+    crawlOrAtticAccessLocation: request.body.crawlOrAtticAccessLocation,
+    contents: request.body.contents,
+    accessPermissions: request.body.accessPermissions,
+    setLockBox: request.body.setLockBox,
+    petsOrChildren: request.body.petsOrChildren,
+    specialNeeds: request.body.specialNeeds,
+    respiratoryOrAllergies: request.body.respiratoryOrAllergies,
+    growth: request.body.growth,
+    odor: request.body.odor,
+    monitors: request.body.monitors,
+    lossIsMailingAddress: request.body.lossIsMailingAddress,
+    customerEmail: request.body.customerEmail,
+    hearAboutUs: request.body.hearAboutUs,
+    adjuster: request.body.adjuster,
+    customerAgent: request.body.customerAgent,
+  }).save();
+  // .then(console.log(request.params._id));
+};
 
-Report.post('remove', function (doc, next) {
-  debug(`Report.post('delete') animal: ${Report.name}`);
-  Customer.findById(doc.customer)
-    .then(customer => {
-      customer.report = customer.report.filter(a => doc._id.toString() !== a.toString());
-      customer.save();
-    })
-    .then(next)
-    .catch(next);
-});
+Report.fetch = util.pagerCreate(Report);
 
 
 export default Report;
