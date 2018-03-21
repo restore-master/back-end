@@ -8,11 +8,4 @@ const Customer = module.exports = Mongoose.Schema({
   report:[{ type: Mongoose.Schema.Types.ObjectId, ref:'reports'}],
 });
 
-Customer.pre('save', function(next) {
-  this.validate((err) => {
-    if(err) next(() => console.error(err));
-    next();
-  });
-});
-
 module.exports = Mongoose.model('customers', Customer);
