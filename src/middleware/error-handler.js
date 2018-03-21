@@ -16,7 +16,7 @@ export default (error, request, response, next) => {
   if(error.message.includes('duplicate key'))
     return response.sendStatus(409);
 
-  if(error.message.includes('objectid failed'))
+  if(error.message.includes('not a route'))
     return response.sendStatus(404);
 
   if(error.message.includes('unauthorized'))
