@@ -6,7 +6,7 @@ import morgan from 'morgan';
 import {Router} from 'express';
 // import cookieParser from 'cookie-parser';
 // import routerAuth from './router-auth.js';
-import fourOhFour from './four-oh-four.js';
+// import fourOhFour from './four-oh-four.js';
 // import routerPhoto from './router-photo.js';
 import routerCustomer from './router-customer.js';
 import errorHandler from './error-handler.js';
@@ -18,13 +18,13 @@ export default new Router()
   // GLOBAL MIDDLEWARE
     cors({
       origin: process.env.CORS_ORIGINS.split(' '),
-      // credentials: true,
+      credentials: true,
     }),
     morgan('dev'),
     bindResponseMethods,
     // ROUTERS
     routerCustomer,
     // ERROR HANDLERS
-    fourOhFour,
+    // fourOhFour,
     errorHandler,
   ]);
