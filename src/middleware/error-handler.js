@@ -1,7 +1,7 @@
 import {logError} from '../lib/utilities';
 
 // INTERFACE
-export default (error, request, response, next) => {
+export default (error, response) => {
   console.log(error);
   logError(error);
   if(error.status)
@@ -20,7 +20,7 @@ export default (error, request, response, next) => {
     return response.sendStatus(404);
 
   if(error.message.includes('unauthorized'))
-    return response.sendStatus(401);    
+    return response.sendStatus(401);
 
   response.sendStatus(500);
 };
