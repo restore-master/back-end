@@ -18,7 +18,7 @@ export default new Router()
   // GLOBAL MIDDLEWARE
     cors({
       origin: process.env.CORS_ORIGINS.split(' '),
-      credentials: true,
+      // credentials: true,
     }),
     morgan('dev'),
     bindResponseMethods,
