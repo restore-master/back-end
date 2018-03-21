@@ -5,7 +5,7 @@ import Mongoose, {Schema} from 'mongoose';
 const Customer = module.exports = Mongoose.Schema({
   name: { type: String, required: true},
   date: { type: String, required: true},
-  report:[{ type: Mongoose.Schema.Types.ObjectId, ref:'reports'}],
+  reports:[{ type: Mongoose.Schema.Types.ObjectId, ref:'report'}],
 });
 
 Customer.pre('save', function(next) {
@@ -15,4 +15,4 @@ Customer.pre('save', function(next) {
   });
 });
 
-module.exports = Mongoose.model('customers', Customer);
+module.exports = Mongoose.model('customer', Customer);

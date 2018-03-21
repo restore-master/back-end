@@ -7,7 +7,7 @@ import Mongoose, {Schema} from 'mongoose';
 
 
 const Report = Mongoose.Schema({
-  customer:{ type: Mongoose.Schema.Types.ObjectId, required: true, ref:'customers'},
+  customer:{ type: Mongoose.Schema.Types.ObjectId, required: true, ref:'customer'},
   source: {type: String, required: true },
   upperRooms: {type: String},
   lowerRooms: {type: String},
@@ -38,14 +38,11 @@ const Report = Mongoose.Schema({
 });
 
 Report.pre('save', function(next) {
-  console.log('is this working?');
-  console.log('this.customer === ', this.customer);
   Customer.findById(this.customer)
     .then(customer => {
-      let reportIds = new Set(customer.reports);
-      reportIds.add(this._id);
-      customer.reports = [...reportIds];
-      Customer.findByIdAndUpdate(this.customer, {customer: customer.reports});
+      customer.reports = [...new Set(customer.reports).add(this._id)];
+      Customer.findByIdAndUpdate(this.customer, {reports: customer.reports});
+      customer.save();
     })
     .then(next)
     .catch(() => next(new Error('Validation Error. Failed to Save Report')));
@@ -55,7 +52,8 @@ Report.post('remove', function(doc, next) {
   Customer.findById(doc.customer)
     .then(customer => {
       customer.reports = customer.reports.filter(a => a.toString() !== doc._id.toString());
-      Customer.findByIdAndUpdate(this.customer, {customer: customer.reports});
+      Customer.findByIdAndUpdate(this.customer, {reports: customer.reports});
+      customer.save();
     })
     .then(next)
     .catch(next);
@@ -134,4 +132,4 @@ Report.post('remove', function(doc, next) {
 // "adjuster": "no",
 // "customerAgent": "possibly",
 // }
-module.exports = Mongoose.model('reports', Report);
+module.exports = Mongoose.model('report', Report);
