@@ -1,12 +1,13 @@
 'use strict';
 import * as _ from 'ramda';
 import * as util from '../lib/utilities';
+import Customer from './customer';
 import createError from 'http-errors';
 import Mongoose, {Schema} from 'mongoose';
 
 
-const reportSchema = new Schema({
-  customer:{ type: Mongoose.Schema.Types.ObjectId, required: true, ref:'customer'},
+const Report = Mongoose.Schema({
+  customer:{ type: Mongoose.Schema.Types.ObjectId, required: true, ref:'customers'},
   source: {type: String, required: true },
   upperRooms: {type: String},
   lowerRooms: {type: String},
@@ -36,44 +37,101 @@ const reportSchema = new Schema({
   customerAgent: {type: String, required: true},
 });
 
-const Report = Mongoose.model('report', reportSchema);
+Report.pre('save', function(next) {
+  console.log('is this working?');
+  console.log('this.customer === ', this.customer);
+  Customer.findById(this.customer)
+    .then(customer => {
+      let reportIds = new Set(customer.reports);
+      reportIds.add(this._id);
+      customer.reports = [...reportIds];
+      Customer.findByIdAndUpdate(this.customer, {customer: customer.reports});
+    })
+    .then(next)
+    .catch(() => next(new Error('Validation Error. Failed to Save Report')));
+});
 
-Report.create =  function(request){
-  console.log(request.body.id);
-  return new Report({
-    customer: request.body.customer,
-    source: request.body.source,
-    upperRooms: request.body.upperRooms,
-    lowerRooms: request.body.lowerRooms,
-    ceilingHeight: request.body.ceilingHeight,
-    ceilingDescription: request.body.ceilingDescription,
-    powerHeat: request.body.powerHeat,
-    flooringType: request.body.flooringType,
-    typeOfHome: request.body.typeOfHome,
-    ageOfHome: request.body.ageOfHome,
-    standingWater: request.body.standingWater,
-    basement: request.body.basement,
-    crawlOrSlab: request.body.crawlOrSlab,
-    crawlOrAtticAccessLocation: request.body.crawlOrAtticAccessLocation,
-    contents: request.body.contents,
-    accessPermissions: request.body.accessPermissions,
-    setLockBox: request.body.setLockBox,
-    petsOrChildren: request.body.petsOrChildren,
-    specialNeeds: request.body.specialNeeds,
-    respiratoryOrAllergies: request.body.respiratoryOrAllergies,
-    growth: request.body.growth,
-    odor: request.body.odor,
-    monitors: request.body.monitors,
-    lossIsMailingAddress: request.body.lossIsMailingAddress,
-    customerEmail: request.body.customerEmail,
-    hearAboutUs: request.body.hearAboutUs,
-    adjuster: request.body.adjuster,
-    customerAgent: request.body.customerAgent,
-  }).save();
-  // .then(console.log(request.params._id));
-};
+Report.post('remove', function(doc, next) {
+  Customer.findById(doc.customer)
+    .then(customer => {
+      customer.reports = customer.reports.filter(a => a.toString() !== doc._id.toString());
+      Customer.findByIdAndUpdate(this.customer, {customer: customer.reports});
+    })
+    .then(next)
+    .catch(next);
+});
 
-Report.fetch = util.pagerCreate(Report);
+// Report.create =  function(request){
+//   console.log(request.body);
+//   var customerReport = new Report({
+//     customer: request.body.customer,
+//     source: request.body.source,
+//     upperRooms: request.body.upperRooms,
+//     lowerRooms: request.body.lowerRooms,
+//     ceilingHeight: request.body.ceilingHeight,
+//     ceilingDescription: request.body.ceilingDescription,
+//     powerHeat: request.body.powerHeat,
+//     flooringType: request.body.flooringType,
+//     typeOfHome: request.body.typeOfHome,
+//     ageOfHome: request.body.ageOfHome,
+//     standingWater: request.body.standingWater,
+//     basement: request.body.basement,
+//     crawlOrSlab: request.body.crawlOrSlab,
+//     crawlOrAtticAccessLocation: request.body.crawlOrAtticAccessLocation,
+//     contents: request.body.contents,
+//     accessPermissions: request.body.accessPermissions,
+//     setLockBox: request.body.setLockBox,
+//     petsOrChildren: request.body.petsOrChildren,
+//     specialNeeds: request.body.specialNeeds,
+//     respiratoryOrAllergies: request.body.respiratoryOrAllergies,
+//     growth: request.body.growth,
+//     odor: request.body.odor,
+//     monitors: request.body.monitors,
+//     lossIsMailingAddress: request.body.lossIsMailingAddress,
+//     customerEmail: request.body.customerEmail,
+//     hearAboutUs: request.body.hearAboutUs,
+//     adjuster: request.body.adjuster,
+//     customerAgent: request.body.customerAgent,
+//   }).save()
+//     .then(
+//       Customer.update = function(request){
+//         let options = {new: true, runValidators: true};
+//         let update = {
+//           reports: [
+//             customerReport,
+//           ],
+//         };
+//         return Customer.findByIdAndUpdate(request.params.id, update, options)
+//           .then(customer => {
+//             return Customer.findById(customer._id);
+//           });
+//       }
+//     );
+//   // .then(console.log(request.params._id));
+// };
 
+// Report.fetch = util.pagerCreate(Report);
 
-export default Report;
+// {
+// "customer": 5ab2a24cd9cc3e33007ea781,
+// "source": "hello",
+// "ceilingHeight": 2,
+// "powerHeat": "me",
+// "flooringType": "you",
+// "typeOfHome": "us",
+// "ageOfHome": "thenm",
+// "standingWater": 2,
+// "basement": "they",
+// "crawlOrSlab": "there",
+// "crawlOrAtticAccessLocation": "that",
+// "contents": "me",
+// "specialNeeds": "you",
+// "respiratoryOrAllergies": "them",
+// "growth": 'hello',
+//  "monitors": "those",
+// "lossIsMailingAddress": true,
+// "customerEmail": "yes",
+// "adjuster": "no",
+// "customerAgent": "possibly",
+// }
+module.exports = Mongoose.model('reports', Report);
