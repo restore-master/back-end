@@ -9,6 +9,7 @@ import {Router} from 'express';
 // import fourOhFour from './four-oh-four.js';
 // import routerPhoto from './router-photo.js';
 import routerCustomer from './router-customer.js';
+import routerReport from './router-report.js';
 import errorHandler from './error-handler.js';
 import bindResponseMethods from './bind-response-methods.js';
 
@@ -21,6 +22,7 @@ export default new Router()
     bindResponseMethods,
     // ROUTERS
     routerCustomer,
+    routerReport,
     // ERROR HANDLERS
     // fourOhFour,
     errorHandler,
