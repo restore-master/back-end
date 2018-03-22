@@ -19,6 +19,7 @@ export default new Router()
   })
   .post('/report/:_id', bodyParser, (request, response) => {
     return new Report(request.body).save()
+      .populate('customer')
       .then(report => response.status(201).json(report))
       .catch(err => errorHandler(err, response));
   })
