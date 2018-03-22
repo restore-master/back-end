@@ -3,15 +3,32 @@
   "version": "1.0.0",
   "main": "index.js",
   "jest": {
+    "setupFiles": [
+      "./src/__test__/lib/jest-setup.js"
+    ],
     "verbose": true,
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "collectCoverage": true,
+    "coverageDirectory": "./coverage",
+    "coveragePathIgnorePatterns": [
+      "/__test__/"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 80,
+        "functions": 80,
+        "lines": 80,
+        "statements": 80
+      }
+    }
   },
   "scripts": {
     "start": "node index.js",
     "start:watch": "nodemon index.js",
     "start:debug": "DEBUG=http* nodemon index.js",
-    "test": "jest --runInBand",
+    "test": "jest --i",
     "test:watch": "jest --watchAll",
+    "test:debug": "DEBUG=http* jest --i",
     "lint": "eslint .",
     "lint:test": "npm run lint && npm test",
     "start-db": "mkdir -p ./data/db && mongod --dbpath ./data/db",
