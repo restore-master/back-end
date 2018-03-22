@@ -45,7 +45,8 @@ Report.pre('save', function(next) {
     .then(next)
     .catch(() => next(new Error('Validation Error. Failed to Save Report')));
 });
-
+// "report": "5ab2c76d7e2d4e112c384803",
+// "customer": "5ab2c25821c6f1101390c41d",
 Report.post('remove', function(doc, next) {
   Customer.findById(doc.customer)
     .then(customer => {
@@ -110,24 +111,24 @@ module.exports = mongoose.model('report', Report);
 // Report.fetch = util.pagerCreate(Report);
 
 // {
-// "customer": 5ab2a24cd9cc3e33007ea781,
-// "source": "hello",
-// "ceilingHeight": 2,
-// "powerHeat": "me",
-// "flooringType": "you",
-// "typeOfHome": "us",
-// "ageOfHome": "thenm",
-// "standingWater": 2,
-// "basement": "they",
-// "crawlOrSlab": "there",
-// "crawlOrAtticAccessLocation": "that",
-// "contents": "me",
-// "specialNeeds": "you",
-// "respiratoryOrAllergies": "them",
-// "growth": 'hello',
-//  "monitors": "those",
-// "lossIsMailingAddress": true,
-// "customerEmail": "yes",
-// "adjuster": "no",
-// "customerAgent": "possibly",
+//   "customer": 5ab2a24cd9cc3e33007ea781,
+//   "source": "hello",
+//   "ceilingHeight": 2,
+//   "powerHeat": "me",
+//   "flooringType": "you",
+//   "typeOfHome": "us",
+//   "ageOfHome": "thenm",
+//   "standingWater": 2,
+//   "basement": "they",
+//   "crawlOrSlab": "there",
+//   "crawlOrAtticAccessLocation": "that",
+//   "contents": "me",
+//   "specialNeeds": "you",
+//   "respiratoryOrAllergies": "them",
+//   "growth": 'hello',
+//   "monitors": "those",
+//   "lossIsMailingAddress": true,
+//   "customerEmail": "yes",
+//   "adjuster": "no",
+//   "customerAgent": "possibly",
 // }

@@ -1,7 +1,7 @@
 'use strict';
 
 // DEPENDENCIES
-import {log, logError} from './utilities';
+import { log } from './utilities';
 const mongoose = require('mongoose');
 mongoose.Promise = Promise;
 

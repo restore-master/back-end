@@ -3,15 +3,32 @@
   "version": "1.0.0",
   "main": "index.js",
   "jest": {
+    "setupFiles": [
+      "./src/__test__/lib/jest-setup.js"
+    ],
     "verbose": true,
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "collectCoverage": true,
+    "coverageDirectory": "./coverage",
+    "coveragePathIgnorePatterns": [
+      "/__test__/"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 80,
+        "functions": 80,
+        "lines": 80,
+        "statements": 80
+      }
+    }
   },
   "scripts": {
     "start": "node index.js",
     "start:watch": "nodemon index.js",
     "start:debug": "DEBUG=http* nodemon index.js",
-    "test": "jest --runInBand",
+    "test": "jest --i",
     "test:watch": "jest --watchAll",
+    "test:debug": "DEBUG=http* jest --i",
     "lint": "eslint .",
     "lint:test": "npm run lint && npm test",
     "start-db": "mkdir -p ./data/db && mongod --dbpath ./data/db",
@@ -24,8 +41,6 @@
     "superagent": "^3.8.2"
   },
   "dependencies": {
-    "aws-sdk": "^2.205.0",
-    "aws-sdk-mock": "^1.7.0",
     "babel": "^6.23.0",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
@@ -33,23 +48,19 @@
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-register": "^6.26.0",
-    "bcrypt": "^1.0.3",
     "body-parser": "^1.18.2",
-    "cookie-parser": "^1.4.3",
     "cors": "^2.8.4",
     "debug": "^3.1.0",
     "dotenv": "^5.0.1",
+    "eslint": "^4.19.0",
+    "eslint-plugin-react": "^7.7.0",
     "express": "^4.16.2",
     "faker": "^4.1.0",
-    "fs-extra": "^5.0.0",
     "http-errors": "^1.6.2",
     "json-parser": "^1.1.5",
-    "jsonwebtoken": "^8.2.0",
     "mongoose": "^5.0.9",
     "morgan": "^1.9.0",
-    "multer": "^1.3.0",
     "nodemon": "^1.17.1",
-    "ramda": "^0.25.0",
     "webpack": "^4.1.0"
   },
   "repository": {
