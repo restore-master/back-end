@@ -29,7 +29,7 @@ export default new Router()
   })
 
   .put('/customer/:_id', bodyParser, (request, response) => {
-    return Customer.findOneAndUpdate(request.params._id, request.body, {upsert: true, runValidators: true})
+    return Customer.findByIdAndUpdate(request.params._id, request.body, {upsert: true, runValidators: true})
       .then(() => response.sendStatus(204))
       .catch(err => errorHandler(err, res));
   })

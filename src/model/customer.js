@@ -1,11 +1,11 @@
 'use strict';
 
-import Mongoose, {Schema} from 'mongoose';
+const mongoose = require('mongoose');
 
-const Customer = module.exports = Mongoose.Schema({
+const Customer = module.exports = mongoose.Schema({
   name: { type: String, required: true},
   date: { type: String, required: true},
-  report:[{ type: Mongoose.Schema.Types.ObjectId, ref:'reports'}],
+  reports:[{ type: mongoose.Schema.Types.ObjectId, ref:'report'}],
 });
 
-module.exports = Mongoose.model('customers', Customer);
+module.exports = mongoose.model('customer', Customer);
