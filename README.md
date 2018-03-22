@@ -30,6 +30,7 @@
 # Overview
 This application cuts down on paper work as well as shows a representation of user data that gives the company feedback on how to better serve their customers. It incorporates `MongoDB` to save the customer and customer reports from the front-end form. There is an  `express` HTTP server running  in this application. The HTTP server handles CRUD methods from user form parsed from the front-end of the application.
 
+
 # Getting Started
 For local development: 
 To get this application up and running on your local machine, fork and/or clone this repository using the `git clone <git repository link>` command in your terminal. Next, run the `npm install` command, which will install all the necessary dependencies in the accompanying package.json file. If wanting to view tests, enter `npm install -D` into the command line to ensure dev-dependencies have installed. 
@@ -47,6 +48,7 @@ __DB_UP__ mongodb://localhost/report
 ```
 Once server is up you can take a look at the front-end README to finish local development.
 [Front-End](https://github.com/restore-master/front-end/blob/master/README.md)
+
 
 # Model
 
@@ -67,6 +69,7 @@ The **`database`** module utilizes  `mongoose`. It requires in the `log` from th
 The **`server`** module utilizes  `express`. It requires in the `errorHandler` from the middleware, and `database` modules. It exports `start()` and `stop()` methods to the server. These methods also connect and disconnect from `mongoose` and the `MongoDB` respectively. 
 
 ## Utilities
+The **`utilities`** module exports 5 functions. The `log` function debugs and console logs. the `logError` function debugs and console logs errors. The `map` function maps through an array. The `filter` function filters through an array. Finally the `daysToMilliseconds` converts the amount of time in the given days to millisecond.
 
 
 # Middleware
@@ -91,6 +94,7 @@ The **`bind-response-method`** exports a single that binds all the response meth
 `response.sendFile`
 `response.sendStatus`
 `response.page`
+
 
 #Resources
 * [Babel and Tools](https://www.npmjs.com/package/babel) ~ npmjs.com/package/babel
