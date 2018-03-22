@@ -26,6 +26,9 @@ module.exports = function(error, response) {
   if(error.message.includes('unauthorized'))
     return response.status(401).send(`${error.name}: ${error.message}`);
 
+  if(error.message.includes('cast'))
+    return response.status(400).send(`${error.name}: ${error.message}`);
+
   return response.status(500).send(`${error.name}: ${error.message}`);
 };
 

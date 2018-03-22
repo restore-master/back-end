@@ -61,19 +61,26 @@ describe('#customer-post POST /customer', function () {
           expect(err.status).toBe(404);
         });
     });
+    it('should return 401 not authorized with invalid username', () => {
+      return superagent.post(this.base)
+        .send({name: 22})
+        .catch(err => {
+          expect(err.status).toBe(400)
+        });
+    });
+    it('should return 401 not authorized with invalid username', () => {
+      return superagent.post(this.base)
+        .send({name: 22, date: 22})
+        .catch(err => {
+          expect(err.message).toContain('carrot')
+        });
+    });
     // it('should return status 404 with bad path, with error message Not Found', () => {
     //   return superagent.post(`${this.base}/badpath`)
     //     .send()
     //     .catch(err => {
     //       expect(err.message).toContain('Not Found');
     //     });
-    // });
-    // it('should return 401 not authorized with invalid username', () => {
-    //   // let encoded = Buffer.from(`${'BADUSERAYYY'}:${this.mockCustomer.password}`).toString('base64');
-
-    //   return superagent.post(this.base)
-    //     .set('Authorization', `Basic ${encoded}`)
-    //     .catch(err => expect(err.status).toBe(401));
     // });
     // it('should return 401 not customer with invalid password', () => {
     //   let encoded = Buffer.from(`${this.mockCustomer.customer.username}:${'BADPASSWAYAYAY'}`).toString('base64');

@@ -13,29 +13,28 @@ export default new Router()
     if(request.params._id) {
       return Customer.findById(request.params._id)
         .then(response.json)
-        .catch(err => errorHandler(err, response));
+        .catch(error => errorHandler(error, response));
     }
     return Customer.find()
       .then(customer => customer.map(a => ({_id: a._id, name: a.name, date: a.date, report: a.report})))
       .then(response.json)
-      .catch(err => errorHandler(err, response));
+      .catch(error => errorHandler(error, response));
   })
 
   .post('/customer', bodyParser, (request, response) => {
-    console.log(request);
     return new Customer(request.body).save()
       .then(customer => response.status(201).json(customer))
-      .catch(err => errorHandler(err, response));
+      .catch(error => errorHandler(error, response));
   })
 
   .put('/customer/:_id', bodyParser, (request, response) => {
     return Customer.findByIdAndUpdate(request.params._id, request.body, {upsert: true, runValidators: true})
       .then(() => response.sendStatus(204))
-      .catch(err => errorHandler(err, res));
+      .catch(error => errorHandler(error, response));
   })
 
   .delete('/customer/:_id', (request, response) => {
     return Customer.findByIdAndRemove(request.params._id)
       .then(() => response.sendStatus(204))
-      .catch(err => errorHandler(err, response));
+      .catch(error => errorHandler(error, response));
   });
