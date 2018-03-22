@@ -12,11 +12,13 @@ export default new Router()
   .get('/customer/:_id?', bodyParser, (request, response) => {
     if(request.params._id) {
       return Customer.findById(request.params._id)
+        .populate('reports')
         .then(response.json)
         .catch(err => errorHandler(err, response));
     }
     return Customer.find()
-      .then(customer => customer.map(a => ({_id: a._id, name: a.name, date: a.date, report: a.report})))
+      .populate('reports')
+      .then(customer => customer.map(a => ({_id: a._id, name: a.name, date: a.date, reports: a.reports})))
       .then(response.json)
       .catch(err => errorHandler(err, response));
   })
