@@ -10,7 +10,6 @@ require('jest');
 describe('#report GET /api/v1/report', function () {
   beforeAll(server.start);
   beforeAll(() => this.base = `:${process.env.PORT}/report`);
-  // beforeAll(() => mock.customer.createOne().then(data => this.mockCustomer = data));
   afterAll(server.stop);
   afterAll(mock.customer.removeAll);
 
@@ -20,8 +19,6 @@ describe('#report GET /api/v1/report', function () {
         this.mockCustomer = mock;
         return superagent.post(`${this.base}/${this.mockCustomer.customer._id}`)
           .send({source: faker.name.firstName(), customer: this.mockCustomer.customer._id})
-          // .field('source', faker.name.firstName())
-          // .field('customer', `${this.mockCustomer.customer._id}`)
       })
       .then(response => {
         this.targetId = response.body._id;
