@@ -1,9 +1,8 @@
 'use strict';
 
-import {Router} from 'express';
+import { Router } from 'express';
 const bodyParser = require('body-parser').json();
 import Report from '../model/report';
-import Customer from '../model/customer';
 import errorHandler from './error-handler';
 
 // module.exports = function(router) {
@@ -42,23 +41,33 @@ import errorHandler from './error-handler';
 // };
 
 export default new Router()
-//
-//   .put('/customer/:id/report', parserBody, (request, response, next) => {
-//     Report.create(request)
-//       .then(response.json)
-//       .catch(next);
-//   })
-  .post('/report/:_id', bodyParser, (request, response) => {
-    console.log('HELLO+++++++++++!+!+!+!+!+', Customer.findById(request.url._id))
+
+  .post('/report/:_id', bodyParser,(request, response) => {
     new Report(request.body).save()
-    //find customer by id
-    //find report id
-    //update customer with report id
-      .then(report => response.status(201).json(report))
+      .then(bike => response.status(201).json(bike))
       .catch(err => errorHandler(err, response));
   })
-//   .get('/customer', (request, response, next) => {
-//     Report.fetch(request)
-//       .then(response.page)
-//       .catch(next);
-//   });
+  .put('/report/:id/report', bodyParser, (request, response) => {
+    Report.findByIdAndUpdate(request.params._id, request.body, {upsert: true, runValidators: true})
+      .then(() => response.sendStatus(204))
+      .catch(err => errorHandler(err, response));
+  })
+  .get('/report/:_id?', (request, response) => {
+    if(request.params._id) {
+      return Report.findById(request.params._id)
+        .populate('customer')
+        .then(response.json)
+        .catch(err => errorHandler(err, response));
+    }
+    Report.find()
+      .then(report => report.map(report => report._id))
+      .then(response.json)
+      .catch(err => errorHandler(err, response));
+  })
+              
+  .delete('/report/:_id', (request, response) => {
+    return Report.findById(request.params._id)
+      .then(report => report.remove())
+      .then(() => response.sendStatus(204))
+      .catch(err => errorHandler(err, response));
+  });

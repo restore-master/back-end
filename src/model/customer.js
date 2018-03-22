@@ -1,11 +1,11 @@
 'use strict';
 
-import Mongoose, {Schema} from 'mongoose';
+import Mongoose from 'mongoose';
 
-const Customer = new Schema({
-  customerName: { type: String, required: true},
+const Customer = module.exports = Mongoose.Schema({
+  name: { type: String, required: true},
   date: { type: String, required: true},
-  report:[{ type: Mongoose.Schema.Types.ObjectId, ref:'report'}],
+  reports:[{ type: Mongoose.Schema.Types.ObjectId, ref:'report'}],
 });
 
 Customer.pre('save', function(next) {
@@ -15,4 +15,4 @@ Customer.pre('save', function(next) {
   });
 });
 
-module.exports = Mongoose.model('customers', Customer);
+module.exports = Mongoose.model('customer', Customer);
