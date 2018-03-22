@@ -16,7 +16,7 @@ export default new Router()
         .catch(error => errorHandler(error, response));
     }
     return Customer.find()
-      .then(customer => customer.map(a => ({_id: a._id, name: a.name, date: a.date, report: a.report})))
+      .then(customer => customer.map(a => ({_id: a._id, name: a.name, date: a.date, reports: a.reports})))
       .then(response.json)
       .catch(error => errorHandler(error, response));
   })
