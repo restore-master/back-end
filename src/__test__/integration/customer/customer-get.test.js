@@ -10,16 +10,14 @@ describe('#customer-get GET /customer', function () {
   beforeAll(() => this.base = `:${process.env.PORT}/customer`);
   beforeAll(server.start);
   afterAll(server.stop);
-  afterEach(mock.customer.removeAll);
+  // afterEach(mock.customer.removeAll);
 
   describe('valid input/output', () => {
-    beforeAll(() =>
+    beforeAll(() => {
       mock.customer.createOne()
         .then(customer => this.mockCustomer = customer)
-        .then(() => {
-          console.log(this.mockCustomer);
-          debug(`this.mockCustomer: ${this.mockCustomer}`);
-        }));
+        .catch(console.error);
+    });
 
     beforeAll(() => {
       debug(`this.mockCustomer: ${this.mockCustomer}`);

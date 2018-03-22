@@ -19,7 +19,10 @@ mock.customer.createOne = () => {
     customerName: faker.name.firstName(),
     date: faker.date.recent(),
   })
-    .then(customer => result.customer = customer)
+    .then(customer => {
+      result.customer = customer;
+      return result;
+    })
     .then(() => {
       debug(`mock createOne result: ${result}`);
       debug(`mock createOne result.customer: ${result.customer}`);

@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "jest": {
+    "setupFiles": [
+      "./src/__test__/lib/jest-setup.js"
+    ],
     "verbose": true,
     "testEnvironment": "node"
   },
@@ -12,6 +15,7 @@
     "start:debug": "DEBUG=http* nodemon index.js",
     "test": "jest --runInBand",
     "test:watch": "jest --watchAll",
+    "test:debug": "DEBUG=http* jest --runInBand",
     "lint": "eslint .",
     "lint:test": "npm run lint && npm test",
     "start-db": "mkdir -p ./data/db && mongod --dbpath ./data/db",
