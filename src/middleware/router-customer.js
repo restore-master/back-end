@@ -12,10 +12,12 @@ export default new Router()
   .get('/customer/:_id?', bodyParser, (request, response) => {
     if(request.params._id) {
       return Customer.findById(request.params._id)
+        .populate('reports')
         .then(response.json)
         .catch(error => errorHandler(error, response));
     }
     return Customer.find()
+      .populate('reports')
       .then(customer => customer.map(a => ({_id: a._id, name: a.name, date: a.date, reports: a.reports})))
       .then(response.json)
       .catch(error => errorHandler(error, response));
