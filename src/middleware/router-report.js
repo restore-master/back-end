@@ -13,17 +13,17 @@ export default new Router()
 //       .catch(next);
 //   })
   .get('/report/:_id?', bodyParser, (request, response) => {
-      if(request.params._id) {
-        return Report.findById(request.params._id)
-          .populate('customer')
-          .then(response.json)
-          .catch(err => errorHandler(err, response));
-      }
-      return Report.find()
-        .then(report => report.map(report => report._id))
+    if(request.params._id) {
+      return Report.findById(request.params._id)
+        .populate('customer')
         .then(response.json)
         .catch(err => errorHandler(err, response));
-    })
+    }
+    return Report.find()
+      .then(report => report.map(report => report._id))
+      .then(response.json)
+      .catch(err => errorHandler(err, response));
+  })
   .post('/report/:_id', bodyParser, (request, response) => {
     console.log('HELLO+++++++++++!+!+!+!+!+'); 
     // Customer.findById(request.url._id));
@@ -35,16 +35,16 @@ export default new Router()
       .catch(err => errorHandler(err, response));
   })
   .put('/report/:_id', bodyParser, (request, response) => {
-      return Report.findByIdAndUpdate(request.params._id, request.body, {upsert: true, runValidators: true})
-        .then(() => response.sendStatus(204))
-        .catch(err => errorHandler(err, response));
+    return Report.findByIdAndUpdate(request.params._id, request.body, {upsert: true, runValidators: true})
+      .then(() => response.sendStatus(204))
+      .catch(err => errorHandler(err, response));
 
-    })
+  })
   .delete('/report/:_id', (request, response) => {
-      return Report.findById(request.params._id)
-        .then(report => report.remove())
-        .then(() => response.sendStatus(204))
-        .catch(err => errorHandler(err, response));
+    return Report.findById(request.params._id)
+      .then(report => report.remove())
+      .then(() => response.sendStatus(204))
+      .catch(err => errorHandler(err, response));
   });
 
 
@@ -83,37 +83,3 @@ export default new Router()
 //     });
 // };
 
-<<<<<<< HEAD
-export default new Router()
-
-  .post('/report/:_id', bodyParser,(request, response) => {
-    new Report(request.body).save()
-      .then(bike => response.status(201).json(bike))
-      .catch(err => errorHandler(err, response));
-  })
-  .put('/report/:id/report', bodyParser, (request, response) => {
-    Report.findByIdAndUpdate(request.params._id, request.body, {upsert: true, runValidators: true})
-      .then(() => response.sendStatus(204))
-      .catch(err => errorHandler(err, response));
-  })
-  .get('/report/:_id?', (request, response) => {
-    if(request.params._id) {
-      return Report.findById(request.params._id)
-        .populate('customer')
-        .then(response.json)
-        .catch(err => errorHandler(err, response));
-    }
-    Report.find()
-      .then(report => report.map(report => report._id))
-      .then(response.json)
-      .catch(err => errorHandler(err, response));
-  })
-              
-  .delete('/report/:_id', (request, response) => {
-    return Report.findById(request.params._id)
-      .then(report => report.remove())
-      .then(() => response.sendStatus(204))
-      .catch(err => errorHandler(err, response));
-  });
-=======
->>>>>>> a1c45e5ae22e9125c2a6095affbf9d0d250c9c44
