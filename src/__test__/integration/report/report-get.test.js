@@ -48,7 +48,7 @@ describe('#report GET /api/v1/report', function () {
           expect(error.status).toBe(401);
         });
     });
-    it('should return status 404 for get one with ID not found', () => {
+    it('should return status 404 for bad path', () => {
       return superagent.get(`${this.base}/NOID`)
         .catch(error => {
           expect(error.status).toBe(404);
