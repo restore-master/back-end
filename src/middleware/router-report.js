@@ -7,12 +7,6 @@ import Customer from '../model/customer';
 import errorHandler from './error-handler';
 
 export default new Router()
-//
-//   .put('/customer/:id/report', parserBody, (request, response, next) => {
-//     Report.create(request)
-//       .then(response.json)
-//       .catch(next);
-//   })
   .get('/report/:_id?', bodyParser, (request, response) => {
       if(request.params._id) {
         return Report.findById(request.params._id)
@@ -24,14 +18,10 @@ export default new Router()
         .then(report => report.map(report => report._id))
         .then(response.json)
         .catch(err => errorHandler(err, response));
-    })
+  })
   .post('/report/:_id', bodyParser, (request, response) => {
     console.log('HELLO+++++++++++!+!+!+!+!+'); 
-    // Customer.findById(request.url._id));
     return new Report(request.body).save()
-    //find customer by id
-    //find report id
-    //update customer with report id
       .then(report => response.status(201).json(report))
       .catch(err => errorHandler(err, response));
   })
@@ -39,8 +29,7 @@ export default new Router()
       return Report.findByIdAndUpdate(request.params._id, request.body, {upsert: true, runValidators: true})
         .then(() => response.sendStatus(204))
         .catch(err => errorHandler(err, response));
-
-    })
+  })
   .delete('/report/:_id', (request, response) => {
       return Report.findById(request.params._id)
         .then(report => report.remove())

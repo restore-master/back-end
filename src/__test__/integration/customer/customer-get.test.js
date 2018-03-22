@@ -21,8 +21,7 @@ describe('#customer-get GET /customer', function () {
 
     beforeAll(() => {
       debug(`this.mockCustomer: ${this.mockCustomer}`);
-      // let encoded = Buffer.from(`${this.mockCustomer.customer.customerName}:${this.mockCustomer.password}`).toString('base64');
-
+      
       return superagent.get(this.base)
         .then(response => this.response = response)
         .then(() => console.log(this.response.body))
@@ -32,19 +31,6 @@ describe('#customer-get GET /customer', function () {
     it('should return a response status of 200', () => {
       expect(this.response.status).toBe(200);
     });
-    // it('should return a JSON web token as response body', () => {
-    //   console.log(this.response.body);
-    //   let tokenParts = this.response.body.split('.');
-    //   let signature = JSON.parse(Buffer.from(tokenParts[0], 'base64').toString());
-    //   let token = JSON.parse(Buffer.from(tokenParts[1], 'base64').toString());
-
-    //   expect(signature.typ).toEqual('JWT');
-    //   console.log(signature.typ);
-    //   expect(token).not.toBeNull();
-    //   expect(token).toHaveProperty('iat');
-    //   expect(token).toHaveProperty('token');
-    //   console.log(token);
-    // });
   });
 
   describe('invalid input/output', () => {
