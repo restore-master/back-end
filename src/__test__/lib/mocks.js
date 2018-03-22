@@ -12,19 +12,18 @@ mock.customer = {};
 
 mock.customer.createOne = () => {
   let result = {};
-  result.password = faker.name.lastName();
+  // result.password = faker.name.lastName();
 
   debug('about to create a new mock.customer');
   return new Customer({
-    customerName: faker.name.firstName(),
+    name: faker.name.firstName(),
     date: faker.date.recent(),
-  })
+  }).save()
     .then(customer => {
       result.customer = customer;
-      return result;
+      // return result;
     })
     .then(() => {
-      debug(`mock createOne result: ${result}`);
       debug(`mock createOne result.customer: ${result.customer}`);
       return result;
     });
@@ -54,5 +53,5 @@ mock.customer.createOne = () => {
 //     });
 // };
 
-// mock.customer.removeAll = () => Promise.all([Customer.remove()]);
+mock.customer.removeAll = () => Promise.all([Customer.remove()]);
 // mock.report.removeAll = () => Promise.all([Report.remove()]);
