@@ -47,20 +47,20 @@ describe('#customer-post POST /customer', function () {
   });
 
   describe('invalid input/output', () => {
-    // it('should return an error with bad path', () => {
-    //   return superagent.post(`${this.base}/badpath`)
-    //     .send()
-    //     .catch(err => {
-    //       expect(err).not.toBeNull();
-    //     });
-    // });
-    // it('should return status 404 with bad path', () => {
-    //   return superagent.post(`${this.base}/badpath`)
-    //     .send()
-    //     .catch(err => {
-    //       expect(err.status).toBe(404);
-    //     });
-    // });
+    it('should return an error with bad path', () => {
+      return superagent.post(`${this.base}/badpath`)
+        .send({name: 'john', date: '11'})
+        .catch(err => {
+          expect(err).not.toBeNull();
+        });
+    });
+    it('should return status 404 with bad path', () => {
+      return superagent.post(`${this.base}/badpath`)
+        .send({name: 'john', date: '11'})
+        .catch(err => {
+          expect(err.status).toBe(404);
+        });
+    });
     // it('should return status 404 with bad path, with error message Not Found', () => {
     //   return superagent.post(`${this.base}/badpath`)
     //     .send()
