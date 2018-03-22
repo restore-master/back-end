@@ -24,6 +24,7 @@ export const start = () => {
       .then(() => {
         state.http = app.listen(process.env.PORT, () => {
           console.log('__SERVER_UP__', process.env.PORT);
+          console.log('__DB_UP__', process.env.MONGO_URI);
           resolve();
         });
       })
@@ -40,6 +41,7 @@ export const stop = () => {
         if(!state.http) return new Error('USAGE ERROR: the state is off')
         state.http.close(() => {
           console.log('__SERVER_DOWN__');
+          console.log('__DB_DOWN__');
           state.isOn = false;
           state.http = null;
           resolve();
