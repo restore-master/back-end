@@ -1,10 +1,8 @@
-import Mongoose, { Schema } from 'mongoose';
-import Customer from './customer';
-import debug from 'debug';
+'use strict';
+const mongoose = require('mongoose');
+const Customer = require('./customer.js');
 
-
-const reportSchema = new Schema({
-  customer:{ type: Mongoose.Schema.Types.ObjectId, required: true, ref:'customer'},
+const Report = mongoose.Schema({
   source: {type: String, required: true },
   upperRooms: {type: String},
   lowerRooms: {type: String},
@@ -13,7 +11,7 @@ const reportSchema = new Schema({
   powerHeat: {type: String, required: true},
   flooringType: {type: String, required:true},
   typeOfHome: {type: String, required:true},
-  ageOfHome: {type: String, required:true},
+  yearBuilt: {type: String, required:true},
   standingWater: {type: Number, required:true},
   basement: {type: String, required: true},
   crawlOrSlab: {type: String, required: true},
@@ -32,32 +30,29 @@ const reportSchema = new Schema({
   hearAboutUs: {type: String},
   adjuster: {type: String, required: true },
   customerAgent: {type: String, required: true},
+  customer: {type: mongoose.Schema.Types.ObjectId, required: true, ref: 'customer'},
 });
-const Report = Mongoose.model('report', reportSchema); 
 
-Report.pre('save', function (next) {
-  debug(`Report.pre('save') ${Report.customer}`);
+Report.pre('save', function(next) {
   Customer.findById(this.customer)
     .then(customer => {
-      customer.report = [...new Set(customer.report).add(this._id)];
-      Customer.findByIdAndUpdate(this.customer, { report: customer.report });
+      customer.reports = [...new Set(customer.reports).add(this._id)];
+      Customer.findByIdAndUpdate(this.customer, {reports: customer.reports});
       customer.save();
     })
     .then(next)
-    .catch(() => next(new Error('Validation Error. Failed to save Report.')));
+    .catch(() => next(new Error('Validation Error. Failed to Save Report')));
 });
 
-
-Report.post('remove', function (doc, next) {
-  debug(`Report.post('delete') animal: ${Report.name}`);
+Report.post('remove', function(doc, next) {
   Customer.findById(doc.customer)
     .then(customer => {
-      customer.report = customer.report.filter(a => doc._id.toString() !== a.toString());
+      customer.reports = customer.reports.filter(a => a.toString() !== doc._id.toString());
+      Customer.findByIdAndUpdate(this.customer, {reports: customer.reports});
       customer.save();
     })
     .then(next)
     .catch(next);
 });
 
-
-export default Report;
+module.exports = mongoose.model('report', Report);
