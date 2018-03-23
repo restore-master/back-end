@@ -3,9 +3,6 @@
 const server = require('../../../lib/server');
 const superagent = require('superagent');
 const mock = require('../../lib/mocks');
-const faker = require('faker');
-const photo = `${__dirname}/../../lib/dino.jpg`;
-// const debug = require('debug')('http:photo-post.test');
 require('jest');
 
 describe('#report POST /report/{customerId}', function () {
@@ -18,20 +15,40 @@ describe('#report POST /report/{customerId}', function () {
   describe('valid input/output', () => {
     it('should return status 201 for successful post', () => {
       return superagent.post(`${this.base}/${this.mockCustomer.customer._id}`)
-        .send({source: 'anything', customer: this.mockCustomer.customer._id})
+        .send({
+          customer: this.mockCustomer.customer._id,
+          source: 'anything',
+          upperRooms: 'two',
+          lowerRooms: 'two',
+          ceilingHeight: 3,
+          ceilingDescription: 'brown',
+          powerHeat: 'no',
+          flooringType: 'wood',
+          typeOfHome: 'old',
+          yearBuilt: 1990,
+          standingWater: 2,
+          basement: 'no',
+          crawlOrSlab: 'slab',
+          crawlOrAtticAccessLocation: 'crawl',
+          contents: 'yes',
+          accessPermissions: 'yes',
+          setLockBox: 'yes',
+          petsOrChildren: 'yes',
+          specialNeeds: 'yes',
+          respiratoryOrAllergies: 'yes',
+          growth: 'yes',
+          odor: 'yes',
+          monitors: 'yes',
+          lossIsMailingAddress: false,
+          customerEmail: 'we@we.com',
+          hearAboutUs: 'through the wind',
+          adjuster: 'no',
+          customerAgent: 'roger',
+        })
         .then(response => {
           expect(response.status).toBe(201);
         });
     });
-    // it('should update the customer reports to contain the created report', () => {
-    //   return superagent.post(`${this.base}/${this.mockCustomer.customer._id}`)
-    //     .send({source: 'something', customer: this.mockCustomer.customer._id})
-    //     .then(response => this.reportID = response.body._id)
-    //     .then(() => {
-    //       return superagent.get(`:${process.env.PORT}/customer/${this.mockCustomer.customer._id}`)
-    //         .then(response => expect(response.body.reports).toContain(this.reportID));
-    //     });
-    // });
   });
 
   describe('invalid input/output', () => {
