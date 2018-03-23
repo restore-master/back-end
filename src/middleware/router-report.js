@@ -13,6 +13,7 @@ export default new Router()
         .then(response.json)
         .catch(err => errorHandler(err, response));
     return Report.find()
+      .populate('customer')
       .then(report => report.map(report => report._id))
       .then(response.json)
       .catch(err => errorHandler(err, response));
