@@ -56,7 +56,7 @@ Once server is up you can take a look at the front-end README to finish local de
 The **`customer`**  module exports a single `Mongoose` schema. It has `name`, `data` and `reports` properties. The first two are required and values are expected to be in the form of strings. The `reports` property is an array of reports referenced to the customer id.
 
 ## Report
-The **`report`** module exports a single `Mongoose` schema as well. It has `source`, `upperRooms`, `lowerRooms`, `yearBuilt`, `standingWater`, `crawlOrSlab`, `contents`, `accessPermissions`, `specialNeeds`, `respiratoryOrAllergies`, `growth`, `monitors`, `ceilingHeights`, `ceilingDescription`, `powerHeat`, `flooringType`, `typeOfHome`, `crawlOrAtticAccessLocation`, `lossIsMailingAddress`, `customerEmail`, `adjuster`, `customerAgent`, `customer`, `petsOrChildren`, `basement`, `setLockBox`, `odor`, and `hearAboutUs` properties. The first 12 are expected to be strings, and the first  18 are required.
+The **`report`** module exports a single `Mongoose` schema as well. It has `source`, `upperRooms`, `lowerRooms`, `ageOfHome`, `standingWater`, `crawlOrSlab`, `contents`, `accessPermissions`, `specialNeeds`, `respiratoryOrAllergies`, `growth`, `monitors`, `ceilingHeights`, `ceilingDescription`, `powerHeat`, `flooringType`, `typeOfHome`, `crawlOrAtticAccessLocation`, `lossIsMailingAddress`, `customerEmail`, `adjuster`, `customerAgent`, `customer`, `petsOrChildren`, `basement`, `setLockBox`, `odor`, and `hearAboutUs` properties. The first 12 are expected to be strings, and the first  18 are required.
 * **`customer`** A `Mongoose` id referenced from the related `customer` schema.
 
 
