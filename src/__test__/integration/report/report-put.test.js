@@ -3,9 +3,6 @@
 const server = require('../../../lib/server');
 const superagent = require('superagent');
 const mock = require('../../lib/mocks');
-const faker = require('faker');
-const photo = `${__dirname}/../../lib/dino.jpg`;
-// const debug = require('debug')('http:photo-post.test');
 require('jest');
 
 describe('#report PUT /report/{reportId}', function () {

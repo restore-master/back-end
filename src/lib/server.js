@@ -38,7 +38,7 @@ export const stop = () => {
       return reject(new Error('USAGE ERROR: the state is off'));
     return db.stop()
       .then(() => {
-        if(!state.http) return new Error('USAGE ERROR: the state is off')
+        if(!state.http) return new Error('USAGE ERROR: the state is off');
         state.http.close(() => {
           console.log('__SERVER_DOWN__');
           console.log('__DB_DOWN__');
