@@ -1,8 +1,6 @@
 'use strict';
-import createError from 'http-errors';
 const mongoose = require('mongoose');
 const Customer = require('./customer.js');
-
 
 const Report = mongoose.Schema({
   source: {type: String, required: true },
@@ -45,8 +43,7 @@ Report.pre('save', function(next) {
     .then(next)
     .catch(() => next(new Error('Validation Error. Failed to Save Report')));
 });
-// "report": "5ab2c76d7e2d4e112c384803",
-// "customer": "5ab2c25821c6f1101390c41d",
+
 Report.post('remove', function(doc, next) {
   Customer.findById(doc.customer)
     .then(customer => {
@@ -59,76 +56,3 @@ Report.post('remove', function(doc, next) {
 });
 
 module.exports = mongoose.model('report', Report);
-// Report.create =  function(request){
-//   console.log(request.body);
-//   var customerReport = new Report({
-//     customer: request.body.customer,
-//     source: request.body.source,
-//     upperRooms: request.body.upperRooms,
-//     lowerRooms: request.body.lowerRooms,
-//     ceilingHeight: request.body.ceilingHeight,
-//     ceilingDescription: request.body.ceilingDescription,
-//     powerHeat: request.body.powerHeat,
-//     flooringType: request.body.flooringType,
-//     typeOfHome: request.body.typeOfHome,
-//     ageOfHome: request.body.ageOfHome,
-//     standingWater: request.body.standingWater,
-//     basement: request.body.basement,
-//     crawlOrSlab: request.body.crawlOrSlab,
-//     crawlOrAtticAccessLocation: request.body.crawlOrAtticAccessLocation,
-//     contents: request.body.contents,
-//     accessPermissions: request.body.accessPermissions,
-//     setLockBox: request.body.setLockBox,
-//     petsOrChildren: request.body.petsOrChildren,
-//     specialNeeds: request.body.specialNeeds,
-//     respiratoryOrAllergies: request.body.respiratoryOrAllergies,
-//     growth: request.body.growth,
-//     odor: request.body.odor,
-//     monitors: request.body.monitors,
-//     lossIsMailingAddress: request.body.lossIsMailingAddress,
-//     customerEmail: request.body.customerEmail,
-//     hearAboutUs: request.body.hearAboutUs,
-//     adjuster: request.body.adjuster,
-//     customerAgent: request.body.customerAgent,
-//   }).save()
-//     .then(
-//       Customer.update = function(request){
-//         let options = {new: true, runValidators: true};
-//         let update = {
-//           reports: [
-//             customerReport,
-//           ],
-//         };
-//         return Customer.findByIdAndUpdate(request.params.id, update, options)
-//           .then(customer => {
-//             return Customer.findById(customer._id);
-//           });
-//       }
-//     );
-//   // .then(console.log(request.params._id));
-// };
-
-// Report.fetch = util.pagerCreate(Report);
-
-// {
-//   "customer": 5ab2a24cd9cc3e33007ea781,
-//   "source": "hello",
-//   "ceilingHeight": 2,
-//   "powerHeat": "me",
-//   "flooringType": "you",
-//   "typeOfHome": "us",
-//   "ageOfHome": "thenm",
-//   "standingWater": 2,
-//   "basement": "they",
-//   "crawlOrSlab": "there",
-//   "crawlOrAtticAccessLocation": "that",
-//   "contents": "me",
-//   "specialNeeds": "you",
-//   "respiratoryOrAllergies": "them",
-//   "growth": 'hello',
-//   "monitors": "those",
-//   "lossIsMailingAddress": true,
-//   "customerEmail": "yes",
-//   "adjuster": "no",
-//   "customerAgent": "possibly",
-// }
