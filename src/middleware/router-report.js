@@ -5,9 +5,9 @@ const bodyParser = require('body-parser').json();
 import Report from '../model/report';
 import errorHandler from './error-handler';
 
-export default new Router() 
+export default new Router()
   .get('/report/:_id?', bodyParser, (request, response) => {
-    if(request.params._id) 
+    if(request.params._id)
       return Report.findById(request.params._id)
         .populate('customer')
         .then(response.json)
@@ -19,7 +19,6 @@ export default new Router()
   })
   .post('/report/:_id', bodyParser, (request, response) => {
     return new Report(request.body).save()
-      .populate('customer')
       .then(report => response.status(201).json(report))
       .catch(err => errorHandler(err, response));
   })
