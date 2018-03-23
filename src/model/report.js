@@ -13,7 +13,7 @@ const Report = mongoose.Schema({
   powerHeat: {type: String, required: true},
   flooringType: {type: String, required:true},
   typeOfHome: {type: String, required:true},
-  ageOfHome: {type: String, required:true},
+  yearBuilt: {type: String, required:true},
   standingWater: {type: Number, required:true},
   basement: {type: String, required: true},
   crawlOrSlab: {type: String, required: true},
