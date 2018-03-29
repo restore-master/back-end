@@ -3,7 +3,6 @@
 const server = require('../../../lib/server');
 const superagent = require('superagent');
 const mock = require('../../lib/mocks');
-// const debug = require('debug')('http:report-get.test');
 require('jest');
 
 describe('#report GET /api/v1/report', function () {

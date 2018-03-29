@@ -1,6 +1,6 @@
 'use strict';
 
-import { Router } from 'express';
+import {Router} from 'express';
 const bodyParser = require('body-parser').json();
 import Report from '../model/report';
 import errorHandler from './error-handler';

@@ -1,14 +1,11 @@
 'use strict';
 
-// DEPENDENCIES
-import { log } from './utilities';
+import {log} from './utilities';
 const mongoose = require('mongoose');
 mongoose.Promise = Promise;
 
-// STATE
-const state = { isOn: false };
+const state = {isOn: false};
 
-// INTERFACE
 export const start = () => {
   log('__DB_UP__', process.env.MONGO_URI);
   if(state.isOn)

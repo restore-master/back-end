@@ -1,8 +1,6 @@
 'use strict';
 
 import {Router} from 'express';
-// var router = express.Router();
-// import parserBody from './parser-body';
 import Customer from '../model/customer';
 import errorHandler from './error-handler';
 const bodyParser = require('body-parser').json();
