@@ -1,38 +1,42 @@
 'use strict';
 
 import {Router} from 'express';
-import parserBody from './parser-body';
+// var router = express.Router();
+// import parserBody from './parser-body';
 import Customer from '../model/customer';
-
+import errorHandler from './error-handler';
+const bodyParser = require('body-parser').json();
 
 export default new Router()
 
-  .get('/customer', (request, response, next) => {
-    Customer.fetch(request)
-      .then(response.page)
-      .catch(next);
-  })
-
-  .get('/customer/:id', (request, response, next) => {
-    Customer.fetchOne(request)
+  .get('/customer/:_id?', bodyParser, (request, response) => {
+    if(request.params._id) {
+      return Customer.findById(request.params._id)
+        .populate('reports')
+        .then(response.json)
+        .catch(error => errorHandler(error, response));
+    }
+    return Customer.find()
+      .populate('reports')
+      .then(customer => customer.map(a => ({_id: a._id, name: a.name, date: a.date, reports: a.reports})))
       .then(response.json)
-      .catch(next);
+      .catch(error => errorHandler(error, response));
   })
 
-  .post('/customer', parserBody, (request, response, next) => {
-    Customer.create(request)
-      .then(response.json)
-      .catch(next);
+  .post('/customer', bodyParser, (request, response) => {
+    return new Customer(request.body).save()
+      .then(customer => response.status(201).json(customer))
+      .catch(error => errorHandler(error, response));
   })
 
-  .put('/customer/:id', parserBody, (request, response, next) => {
-    Customer.update(request)
-      .then(response.json)
-      .catch(next);
-  })
-
-  .delete('/customer/:id', (request, response, next) => {
-    Customer.delete(request)
+  .put('/customer/:_id', bodyParser, (request, response) => {
+    return Customer.findByIdAndUpdate(request.params._id, request.body, {upsert: true, runValidators: true})
       .then(() => response.sendStatus(204))
-      .catch(next);
+      .catch(error => errorHandler(error, response));
+  })
+
+  .delete('/customer/:_id', (request, response) => {
+    return Customer.findByIdAndRemove(request.params._id)
+      .then(() => response.sendStatus(204))
+      .catch(error => errorHandler(error, response));
   });
