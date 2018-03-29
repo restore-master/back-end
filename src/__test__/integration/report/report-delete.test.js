@@ -5,7 +5,6 @@ const superagent = require('superagent');
 const mock = require('../../lib/mocks');
 const faker = require('faker');
 const report = `${__dirname}/../../lib/dino.jpg`;
-// const debug = require('debug')('http:report-post.test');
 require('jest');
 
 describe('#report DELETE /api/v1/customer', function () {

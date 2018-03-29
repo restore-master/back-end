@@ -5,7 +5,6 @@ const superagent = require('superagent');
 const mock = require('../../lib/mocks');
 const faker = require('faker');
 const photo = `${__dirname}/../../lib/dino.jpg`;
-// const debug = require('debug')('http:photo-post.test');
 require('jest');
 
 describe('#report POST /report/{customerId}', function () {
@@ -23,15 +22,6 @@ describe('#report POST /report/{customerId}', function () {
           expect(response.status).toBe(201);
         });
     });
-    // it('should update the customer reports to contain the created report', () => {
-    //   return superagent.post(`${this.base}/${this.mockCustomer.customer._id}`)
-    //     .send({source: 'something', customer: this.mockCustomer.customer._id})
-    //     .then(response => this.reportID = response.body._id)
-    //     .then(() => {
-    //       return superagent.get(`:${process.env.PORT}/customer/${this.mockCustomer.customer._id}`)
-    //         .then(response => expect(response.body.reports).toContain(this.reportID));
-    //     });
-    // });
   });
 
   describe('invalid input/output', () => {

@@ -5,7 +5,6 @@ const superagent = require('superagent');
 const mock = require('../../lib/mocks');
 const faker = require('faker');
 const photo = `${__dirname}/../../lib/dino.jpg`;
-// const debug = require('debug')('http:photo-post.test');
 require('jest');
 
 describe('#report PUT /report/{reportId}', function () {
@@ -14,7 +13,7 @@ describe('#report PUT /report/{reportId}', function () {
   beforeEach(() => mock.customer.createOne().then(data => this.mockCustomer = data));
   afterAll(server.stop);
   afterAll(mock.customer.removeAll);
-  
+
   beforeEach(() => {
     return superagent.post(`${this.base}/${this.mockCustomer.customer._id}`)
       .send({source: 'anything', customer: this.mockCustomer.customer._id})
