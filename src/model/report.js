@@ -1,8 +1,6 @@
 'use strict';
-import createError from 'http-errors';
 const mongoose = require('mongoose');
 const Customer = require('./customer.js');
-
 
 const Report = mongoose.Schema({
   source: {type: String, required: true },
@@ -13,7 +11,7 @@ const Report = mongoose.Schema({
   powerHeat: {type: String, required: true},
   flooringType: {type: String, required:true},
   typeOfHome: {type: String, required:true},
-  ageOfHome: {type: String, required:true},
+  yearBuilt: {type: String, required:true},
   standingWater: {type: Number, required:true},
   basement: {type: String, required: true},
   crawlOrSlab: {type: String, required: true},
@@ -45,6 +43,10 @@ Report.pre('save', function(next) {
     .then(next)
     .catch(() => next(new Error('Validation Error. Failed to Save Report')));
 });
+<<<<<<< HEAD
+=======
+
+>>>>>>> b8f7492a1afe4f65504faffc8c412a7b72563462
 Report.post('remove', function(doc, next) {
   Customer.findById(doc.customer)
     .then(customer => {
@@ -56,4 +58,8 @@ Report.post('remove', function(doc, next) {
     .catch(next);
 });
 
+<<<<<<< HEAD
 module.exports = mongoose.model('report', Report);
+=======
+module.exports = mongoose.model('report', Report);
+>>>>>>> b8f7492a1afe4f65504faffc8c412a7b72563462

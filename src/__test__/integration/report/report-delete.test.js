@@ -17,7 +17,36 @@ describe('#report DELETE /api/v1/customer', function () {
   describe('valid input/output', () => {
     beforeEach(() => {
       return superagent.post(`${this.base}/${this.mockCustomer.customer._id}`)
-        .send({source: 'anything', customer: this.mockCustomer.customer._id})
+        .send({
+          customer: this.mockCustomer.customer._id,
+          source: 'anything',
+          upperRooms: 'two',
+          lowerRooms: 'two',
+          ceilingHeight: 3,
+          ceilingDescription: 'brown',
+          powerHeat: 'no',
+          flooringType: 'wood',
+          typeOfHome: 'old',
+          yearBuilt: 1990,
+          standingWater: 2,
+          basement: 'no',
+          crawlOrSlab: 'slab',
+          crawlOrAtticAccessLocation: 'crawl',
+          contents: 'yes',
+          accessPermissions: 'yes',
+          setLockBox: 'yes',
+          petsOrChildren: 'yes',
+          specialNeeds: 'yes',
+          respiratoryOrAllergies: 'yes',
+          growth: 'yes',
+          odor: 'yes',
+          monitors: 'yes',
+          lossIsMailingAddress: false,
+          customerEmail: 'we@we.com',
+          hearAboutUs: 'through the wind',
+          adjuster: 'no',
+          customerAgent: 'roger',
+        })
         .then(response => this.reportId = response.body._id);
     });
 
