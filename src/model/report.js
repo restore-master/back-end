@@ -43,10 +43,7 @@ Report.pre('save', function(next) {
     .then(next)
     .catch(() => next(new Error('Validation Error. Failed to Save Report')));
 });
-<<<<<<< HEAD
-=======
 
->>>>>>> b8f7492a1afe4f65504faffc8c412a7b72563462
 Report.post('remove', function(doc, next) {
   Customer.findById(doc.customer)
     .then(customer => {
@@ -58,8 +55,4 @@ Report.post('remove', function(doc, next) {
     .catch(next);
 });
 
-<<<<<<< HEAD
 module.exports = mongoose.model('report', Report);
-=======
-module.exports = mongoose.model('report', Report);
->>>>>>> b8f7492a1afe4f65504faffc8c412a7b72563462
